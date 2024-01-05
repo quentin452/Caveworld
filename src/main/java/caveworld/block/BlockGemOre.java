@@ -33,12 +33,12 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 	 * Metadata
 	 * 0: Aquamarine Ore
 	 * 1: Block of Aquamarine
-	 * 3: Magnite Ore
-	 * 4: Block of Magnite
-	 * 5: Hexcite Ore
-	 * 6: Block of Hexcite
-	 * 7: Infitite Ore
-	 * 8: Block of Infitite
+	 * 2: Magnite Ore
+	 * 3: Block of Magnite
+	 * 4: Hexcite Ore
+	 * 5: Block of Hexcite
+	 * 6: Infitite Ore
+	 * 7: Block of Infitite
 	 */
 
 	private final Random random = new Random();
@@ -56,10 +56,10 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		this.setHarvestLevel("pickaxe", 1);
 		this.setHarvestLevel("pickaxe", 2, 0);
 		this.setHarvestLevel("pickaxe", 2, 1);
+		this.setHarvestLevel("pickaxe", 2, 4);
 		this.setHarvestLevel("pickaxe", 2, 5);
-		this.setHarvestLevel("pickaxe", 2, 6);
+		this.setHarvestLevel("pickaxe", 3, 6);
 		this.setHarvestLevel("pickaxe", 3, 7);
-		this.setHarvestLevel("pickaxe", 3, 8);
 		this.setCreativeTab(Caveworld.tabCaveworld);
 	}
 
@@ -76,7 +76,7 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		{
 			case 0:
 			case 5:
-			case 7:
+			case 6:
 				return CaveItems.gem;
 			default:
 				return Item.getItemFromBlock(this);
@@ -95,7 +95,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 			case 4:
 			case 6:
 			case 7:
-			case 8:
 				return 1;
 		}
 
@@ -152,18 +151,16 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		switch (meta)
 		{
 			case 0:
-			case 3:
-			case 5:
+			case 2:
+			case 4:
 				return 3.0F;
 			case 1:
-			case 4:
-			case 6:
+			case 3:
+			case 5:
 				return 4.5F;
-			case 2:
-				return 6.0F;
-			case 7:
+			case 6:
 				return 100.0F;
-			case 8:
+			case 7:
 				return 10.0F;
 		}
 
@@ -177,8 +174,8 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 
 		switch (meta)
 		{
+			case 6:
 			case 7:
-			case 8:
 				return 500.0F;
 		}
 
@@ -195,8 +192,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 			case 0:
 			case 1:
 				return 5;
-			case 2:
-				return 8;
 		}
 
 		return super.getLightValue(world, x, y, z);
@@ -206,20 +201,20 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
-		oreIcons = new IIcon[9];
+		oreIcons = new IIcon[8];
 		oreIcons[0] = iconRegister.registerIcon("caveworld:aquamarine_ore");
 		oreIcons[1] = iconRegister.registerIcon("caveworld:aquamarine_block");
-		oreIcons[3] = iconRegister.registerIcon("caveworld:magnite_ore");
-		oreIcons[4] = iconRegister.registerIcon("caveworld:magnite_block");
-		oreIcons[5] = iconRegister.registerIcon("caveworld:hexcite_ore");
-		oreIcons[6] = iconRegister.registerIcon("caveworld:hexcite_block");
-		oreIcons[7] = iconRegister.registerIcon("caveworld:infitite_ore");
-		oreIcons[8] = iconRegister.registerIcon("caveworld:infitite_block");
-		overlayIcons = new IIcon[5];
+		oreIcons[2] = iconRegister.registerIcon("caveworld:magnite_ore");
+		oreIcons[3] = iconRegister.registerIcon("caveworld:magnite_block");
+		oreIcons[4] = iconRegister.registerIcon("caveworld:hexcite_ore");
+		oreIcons[5] = iconRegister.registerIcon("caveworld:hexcite_block");
+		oreIcons[6] = iconRegister.registerIcon("caveworld:infitite_ore");
+		oreIcons[7] = iconRegister.registerIcon("caveworld:infitite_block");
+		overlayIcons = new IIcon[4];
 		overlayIcons[0] = iconRegister.registerIcon("caveworld:aquamarine_ore_overlay");
-		overlayIcons[2] = iconRegister.registerIcon("caveworld:magnite_ore_overlay");
-		overlayIcons[3] = iconRegister.registerIcon("caveworld:hexcite_ore_overlay");
-		overlayIcons[4] = iconRegister.registerIcon("caveworld:infitite_ore_overlay");
+		overlayIcons[1] = iconRegister.registerIcon("caveworld:magnite_ore_overlay");
+		overlayIcons[2] = iconRegister.registerIcon("caveworld:hexcite_ore_overlay");
+		overlayIcons[3] = iconRegister.registerIcon("caveworld:infitite_ore_overlay");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -242,13 +237,13 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		{
 			case 0:
 				return overlayIcons[0];
-			case 2:
+			case 1:
 				return overlayIcons[1];
-			case 3:
+			case 2:
 				return overlayIcons[2];
-			case 5:
+			case 4:
 				return overlayIcons[3];
-			case 7:
+			case 6:
 				return overlayIcons[4];
 			default:
 				return null;

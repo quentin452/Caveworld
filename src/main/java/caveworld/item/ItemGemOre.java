@@ -20,17 +20,17 @@ public class ItemGemOre extends ItemBlockWithMetadata
 				return "tile.oreAquamarine";
 			case 1:
 				return "tile.blockAquamarine";
-			case 3:
+			case 2:
 				return "tile.oreMagnite";
-			case 4:
+			case 3:
 				return "tile.blockMagnite";
-			case 5:
+			case 4:
 				return "tile.oreHexcite";
-			case 6:
+			case 5:
 				return "tile.blockHexcite";
-			case 7:
+			case 6:
 				return "tile.oreInfitite";
-			case 8:
+			case 7:
 				return "tile.blockInfitite";
 		}
 
