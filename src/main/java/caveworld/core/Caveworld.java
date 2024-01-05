@@ -23,13 +23,11 @@ import caveworld.recipe.RecipeCaveniumTool;
 import caveworld.recipe.RecipeFarmingHoe;
 import caveworld.util.CaveLog;
 import caveworld.util.CaveUtils;
-import caveworld.util.SubItemHelper;
 import caveworld.util.Version;
 import caveworld.world.*;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.primitives.Ints;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -41,12 +39,12 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,6 +57,7 @@ import org.apache.logging.log4j.Level;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -176,8 +175,6 @@ public class Caveworld
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		SubItemHelper.cacheSubBlocks(event.getSide());
-		SubItemHelper.cacheSubItems(event.getSide());
 
 		for (Item item : GameData.getItemRegistry().typeSafeIterable())
 		{
@@ -187,15 +184,20 @@ public class Caveworld
 			CaveUtils.isItemHoe(item);
 		}
 
-		if (!Config.disableCaveniumTools)
-		{
-			for (Block block : GameData.getBlockRegistry().typeSafeIterable())
-			{
-				try
-				{
-					List<ItemStack> list = SubItemHelper.getSubBlocks(block);
+        if (!Config.disableCaveniumTools) {
 
-					if (list.isEmpty())
+            for (Block block : GameData.getBlockRegistry().typeSafeIterable()) {
+
+                Item item = Item.getItemFromBlock(block);
+                CreativeTabs tab = CreativeTabs.tabBlock;
+
+                try {
+
+                    List<ItemStack> list = new ArrayList<>();
+
+                    block.getSubBlocks(item, tab, list);
+
+                    if (list.isEmpty()) {
 					{
 						if (Strings.nullToEmpty(block.getHarvestTool(0)).equalsIgnoreCase("pickaxe") || CaveItems.mining_pickaxe.func_150897_b(block) ||
 							block instanceof BlockOre || block instanceof BlockRedstoneOre || block instanceof BlockGlowstone)
@@ -230,7 +232,6 @@ public class Caveworld
 								ItemDiggingShovel.breakableBlocks.addIfAbsent(new BlockEntry(block, 4));
 								ItemDiggingShovel.breakableBlocks.addIfAbsent(new BlockEntry(block, 8));
 							}
-						}
 					}
 					else for (ItemStack itemstack : list)
 					{
@@ -280,7 +281,8 @@ public class Caveworld
 								}
 							}
 						}
-					}
+					}		}
+                    }
 				}
 				catch (Throwable e) {}
 			}
