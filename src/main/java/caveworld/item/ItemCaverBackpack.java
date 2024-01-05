@@ -14,11 +14,8 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import shift.sextiarysector.api.equipment.EquipmentType;
-import shift.sextiarysector.api.equipment.IEquipment;
-import shift.sextiarysector.item.ISSEquipment;
 
-public class ItemCaverBackpack extends Item implements IEquipment, ISSEquipment
+public class ItemCaverBackpack extends Item
 {
 	public ItemCaverBackpack(String name)
 	{
@@ -108,44 +105,5 @@ public class ItemCaverBackpack extends Item implements IEquipment, ISSEquipment
 
 		from.markDirty();
 		to.markDirty();
-	}
-
-	@Override
-	public boolean canTakeStack(EquipmentType equipment, ItemStack stack, EntityPlayer player)
-	{
-		return equipment == EquipmentType.Bag;
-	}
-
-	@Override
-	public boolean isItemValid(EquipmentType equipment, ItemStack stack)
-	{
-		return equipment == EquipmentType.Bag;
-	}
-
-	@Override
-	public void onUpdate(EquipmentType equipment, ItemStack stack, World world, Entity player, int slot) {}
-
-	@Override
-	public boolean canDrop(EquipmentType equipment, ItemStack stack, EntityPlayer player)
-	{
-		return true;
-	}
-
-	@Override
-	public String getTabName(EquipmentType equipment, ItemStack stack, EntityPlayer player)
-	{
-		return getUnlocalizedName(stack);
-	}
-
-	@Override
-	public boolean shouldAddToList(EquipmentType equipment, ItemStack stack, EntityPlayer player)
-	{
-		return true;
-	}
-
-	@Override
-	public void onTabClicked(EquipmentType equipment, ItemStack stack, EntityPlayer player)
-	{
-		CaveNetworkRegistry.sendToServer(new OpenGuiMessage(1));
 	}
 }

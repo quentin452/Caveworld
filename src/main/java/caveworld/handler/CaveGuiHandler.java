@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import shift.sextiarysector.api.equipment.EquipmentType;
 
 public class CaveGuiHandler implements IGuiHandler
 {

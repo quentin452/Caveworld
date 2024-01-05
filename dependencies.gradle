@@ -59,6 +59,4 @@ dependencies {
     implementation files("libs/AppleMilkTea2-1.7.10_2.9n.jar")
     implementation files("libs/Bamboo-2.6.8.5.jar")
     implementation files("libs/MaterialArms-1.1.6.jar")
-    implementation files("libs/SextiarySector2-2.4.8.b-1.7.10.jar")
-
 }

@@ -167,8 +167,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import shift.sextiarysector.api.SextiarySectorAPI;
-import shift.sextiarysector.api.equipment.EquipmentType;
 
 public class CaveEventHooks
 {

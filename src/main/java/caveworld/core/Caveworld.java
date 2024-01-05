@@ -452,97 +452,6 @@ public class Caveworld
 			prop.set(entries.toArray(new String[entries.size()]));
 		}
 
-		prop = category.get("randomiteDrops");
-
-		if (prop.getStringList() == null || prop.getStringList().length <= 0)
-		{
-			entries.clear();
-
-			for (Item item : GameData.getItemRegistry().typeSafeIterable())
-			{
-				if (prop.getMaxListLength() > 0 && entries.size() >= prop.getMaxListLength())
-				{
-					break;
-				}
-
-				String name = GameData.getItemRegistry().getNameForObject(item);
-
-				if (name != null && name.startsWith("minecraft"))
-				{
-					boolean flag = false;
-
-					if (item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemHoe || item instanceof ItemBow || item instanceof ItemArmor || item instanceof ItemSeeds || item instanceof ItemFood)
-					{
-						flag = true;
-					}
-					else if (item instanceof ItemBlock)
-					{
-						Block block = Block.getBlockFromItem(item);
-
-						if (block instanceof BlockSand || block instanceof BlockGrass || block instanceof BlockGlass || block instanceof BlockClay || block instanceof BlockLog ||
-							block instanceof BlockReed || block instanceof BlockTorch || block instanceof BlockCocoa)
-						{
-							flag = true;
-						}
-					}
-					else if (item == Items.diamond || item == Items.emerald || item == Items.iron_ingot || item == Items.gold_ingot || item == Items.ender_pearl || item == Items.blaze_rod)
-					{
-						flag = true;
-					}
-
-					if (flag)
-					{
-						if (item.isDamageable())
-						{
-							entries.add(name);
-						}
-						else
-						{
-							List<ItemStack> list = SubItemHelper.getSubItems(item);
-
-							for (ItemStack itemstack : list)
-							{
-								int i = itemstack.getItemDamage();
-
-								if (i <= 0)
-								{
-									entries.add(name);
-								}
-								else
-								{
-									entries.add(name + ":" + i);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			prop.set(entries.toArray(new String[entries.size()]));
-		}
-
-		prop = category.get("randomitePotions");
-
-		if (prop.getIntList() == null || prop.getIntList().length <= 0)
-		{
-			Set<Integer> values = Sets.newTreeSet();
-
-			for (Potion potion : CaveUtils.getPotions())
-			{
-				if (prop.getMaxListLength() > 0 && entries.size() >= prop.getMaxListLength())
-				{
-					break;
-				}
-
-				if (potion.getEffectiveness() > 0.5D)
-				{
-					values.add(potion.getId());
-				}
-			}
-
-			prop.set(Ints.toArray(values));
-		}
-
 		Config.saveConfig(Config.generalCfg);
 	}
 
@@ -550,7 +459,6 @@ public class Caveworld
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		ConfigHelper.refreshMiningPoints();
-		ConfigHelper.refreshRandomiteDrops();
 		ConfigHelper.refreshCavebornItems();
 
 		event.registerServerCommand(new CommandCaveworld());

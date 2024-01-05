@@ -13,8 +13,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import shift.sextiarysector.api.equipment.EquipmentType;
-import shift.sextiarysector.gui.tab.TabManager;
 
 @SideOnly(Side.CLIENT)
 public class GuiCaverBackpack extends GuiContainer

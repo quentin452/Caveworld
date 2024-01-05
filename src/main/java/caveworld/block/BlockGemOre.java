@@ -1,8 +1,6 @@
 package caveworld.block;
 
 import caveworld.api.CaveworldAPI;
-import caveworld.api.event.RandomiteChanceEvent;
-import caveworld.api.event.RandomiteChanceEvent.EventType;
 import caveworld.config.Config;
 import caveworld.core.CaveAchievementList;
 import caveworld.core.Caveworld;
@@ -35,7 +33,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 	 * Metadata
 	 * 0: Aquamarine Ore
 	 * 1: Block of Aquamarine
-	 * 2: Randomite Ore
 	 * 3: Magnite Ore
 	 * 4: Block of Magnite
 	 * 5: Hexcite Ore
@@ -45,8 +42,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 	 */
 
 	private final Random random = new Random();
-
-	public final List<ItemStack> randomiteDrops = Lists.newArrayList();
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] oreIcons;
@@ -130,97 +125,7 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
 	{
-		ArrayList<ItemStack> drops = super.getDrops(world, x, y, z, metadata, fortune);
-
-		switch (metadata)
-		{
-			case 2:
-				doRandomiteChance(world, x, y, z, fortune, drops);
-				break;
-		}
-
-		return drops;
-	}
-
-	public void doRandomiteChance(World world, int x, int y, int z, int fortune, List<ItemStack> drops)
-	{
-		EntityPlayer player = harvesters.get();
-
-		if (MinecraftForge.EVENT_BUS.post(new RandomiteChanceEvent.Pre(world, x, y, z, fortune, player)))
-		{
-			return;
-		}
-
-		EventType type = EventType.NONE;
-
-		if (CaveworldAPI.isEntityInCaves(player))
-		{
-			player.triggerAchievement(CaveAchievementList.randomite);
-		}
-
-		boolean cavenia = CaveworldAPI.isEntityInCavenia(player);
-
-		if (cavenia || random.nextInt(3) == 0)
-		{
-			if (player == null)
-			{
-				if (random.nextInt(4) == 0)
-				{
-					if (!world.isRemote)
-					{
-						world.newExplosion(null, x + 0.5D, y + 0.5D, z + 0.5D, 1.5F, false, true);
-					}
-
-					drops.clear();
-					type = EventType.OTHER;
-				}
-			}
-			else if (player.getActivePotionEffects().size() < (cavenia ? 5 : 3))
-			{
-				if (!world.isRemote)
-				{
-					Potion potion = null;
-					List<Potion> potions = getRandomitePotions();
-
-					if (!potions.isEmpty())
-					{
-						while (potion == null || player.isPotionActive(potion))
-						{
-							potion = potions.get(player.getRNG().nextInt(potions.size()));
-						}
-					}
-
-					if (potion != null)
-					{
-						player.addPotionEffect(new PotionEffect(potion.getId(), (cavenia ? MathHelper.getRandomIntegerInRange(random, 30, 60) : MathHelper.getRandomIntegerInRange(random, 10, 20)) * 20));
-						world.playSoundAtEntity(player, "dig.glass", 0.75F, 2.0F);
-					}
-				}
-
-				drops.clear();
-				type = EventType.POTION;
-			}
-		}
-
-		if (type == null || type == EventType.NONE)
-		{
-			if (!randomiteDrops.isEmpty())
-			{
-				for (int i = 0; i < Math.min(Math.max(fortune, 1), 3); ++i)
-				{
-					ItemStack item = randomiteDrops.get(random.nextInt(randomiteDrops.size()));
-
-					if (item != null && item.getItem() != null && item.stackSize > 0)
-					{
-						drops.add(item.copy());
-					}
-				}
-
-				type = EventType.ITEM;
-			}
-		}
-
-		MinecraftForge.EVENT_BUS.post(new RandomiteChanceEvent.Post(world, x, y, z, fortune, player, type));
+        return super.getDrops(world, x, y, z, metadata, fortune);
 	}
 
 	@Override
@@ -304,7 +209,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		oreIcons = new IIcon[9];
 		oreIcons[0] = iconRegister.registerIcon("caveworld:aquamarine_ore");
 		oreIcons[1] = iconRegister.registerIcon("caveworld:aquamarine_block");
-		oreIcons[2] = iconRegister.registerIcon("caveworld:randomite_ore");
 		oreIcons[3] = iconRegister.registerIcon("caveworld:magnite_ore");
 		oreIcons[4] = iconRegister.registerIcon("caveworld:magnite_block");
 		oreIcons[5] = iconRegister.registerIcon("caveworld:hexcite_ore");
@@ -313,7 +217,6 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		oreIcons[8] = iconRegister.registerIcon("caveworld:infitite_block");
 		overlayIcons = new IIcon[5];
 		overlayIcons[0] = iconRegister.registerIcon("caveworld:aquamarine_ore_overlay");
-		overlayIcons[1] = iconRegister.registerIcon("caveworld:randomite_ore_overlay");
 		overlayIcons[2] = iconRegister.registerIcon("caveworld:magnite_ore_overlay");
 		overlayIcons[3] = iconRegister.registerIcon("caveworld:hexcite_ore_overlay");
 		overlayIcons[4] = iconRegister.registerIcon("caveworld:infitite_ore_overlay");
@@ -367,22 +270,5 @@ public class BlockGemOre extends BlockOre implements IBlockRenderOverlay
 		{
 			list.add(new ItemStack(item, 1, i));
 		}
-	}
-
-	public static List<Potion> getRandomitePotions()
-	{
-		List<Potion> potions = Lists.newArrayList();
-
-		for (int id : Config.randomitePotions)
-		{
-			Potion potion = Potion.potionTypes[id];
-
-			if (potion != null)
-			{
-				potions.add(potion);
-			}
-		}
-
-		return potions;
 	}
 }

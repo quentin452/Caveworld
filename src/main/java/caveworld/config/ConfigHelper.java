@@ -151,20 +151,6 @@ public class ConfigHelper
 		return true;
 	}
 
-	public static boolean refreshRandomiteDrops()
-	{
-		if (Config.randomiteDrops == null)
-		{
-			return false;
-		}
-
-		CaveBlocks.gem_ore.randomiteDrops.clear();
-
-		getItemsFromStrings(CaveBlocks.gem_ore.randomiteDrops, Config.randomiteDrops);
-
-		return true;
-	}
-
 	public static boolean refreshCavebornItems()
 	{
 		if (Config.cavebornItems == null)

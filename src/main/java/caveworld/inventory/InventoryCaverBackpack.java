@@ -6,7 +6,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import shift.sextiarysector.api.equipment.EquipmentType;
 
 public class InventoryCaverBackpack implements IInventory
 {

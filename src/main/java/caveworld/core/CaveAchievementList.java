@@ -35,7 +35,6 @@ public class CaveAchievementList
 	public static final Achievement cavenicZombieSlayer = CaveAchievement.of("cavenicZombieSlayer", -2, -6, new ItemStack(CaveItems.cavenium, 1, 0), caveworld, true);
 	public static final Achievement cavenicSpiderSlayer = CaveAchievement.of("cavenicSpiderSlayer", -2, -4, new ItemStack(CaveItems.cavenium, 1, 0), caveworld, true);
 	public static final Achievement aquamarine = CaveAchievement.of("aquamarine", 2, 6, new ItemStack(CaveItems.gem, 1, 0), caveworld, true);
-	public static final Achievement randomite = CaveAchievement.of("randomite", 2, 4, new ItemStack(CaveBlocks.gem_ore, 1, 2), caveworld, true);
 	public static final Achievement magnite = CaveAchievement.of("magnite", -2, -2, new ItemStack(CaveItems.gem, 1, 1), caveworld, true);
 	public static final Achievement hexcite = CaveAchievement.of("hexcite", -5, 6, new ItemStack(CaveItems.gem, 1, 3), caveworld, true);
 	public static final Achievement infitite = CaveAchievement.of("infitite", 0, 10, new ItemStack(CaveItems.gem, 1, 4), caveworld, true);

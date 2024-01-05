@@ -68,7 +68,6 @@ public class CaveBlocks
 		OreDictionary.registerOre("blockRefinedCavenium", new ItemStack(cavenium_ore, 1, 3));
 		OreDictionary.registerOre("oreAquamarine", new ItemStack(gem_ore, 1, 0));
 		OreDictionary.registerOre("blockAquamarine", new ItemStack(gem_ore, 1, 1));
-		OreDictionary.registerOre("oreRandomite", new ItemStack(gem_ore, 1, 2));
 		OreDictionary.registerOre("oreMagnite", new ItemStack(gem_ore, 1, 3));
 		OreDictionary.registerOre("blockMagnite", new ItemStack(gem_ore, 1, 4));
 		OreDictionary.registerOre("oreHexcite", new ItemStack(gem_ore, 1, 5));
