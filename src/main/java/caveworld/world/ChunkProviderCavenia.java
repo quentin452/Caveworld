@@ -74,62 +74,59 @@ public class ChunkProviderCavenia implements IChunkProvider
 		this.bossType = bossType;
 	}
 
-	@Override
-	public Chunk provideChunk(int chunkX, int chunkZ)
-	{
-		random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
+    @Override
+    public Chunk provideChunk(int chunkX, int chunkZ) {
+        random.setSeed(chunkX * 341873128712L + chunkZ * 132897987541L);
 
-		Block[] blocks = new Block[65536];
-		byte[] metadata = new byte[blocks.length];
+        Block[] blocks = new Block[65536];
+        byte[] metadata = new byte[blocks.length];
 
-		for (int i = 0; i < blocks.length; ++i)
-		{
-			blocks[i] = Blocks.stone;
-			metadata[i] = (byte)0;
-		}
+        for (int i = 0; i < blocks.length; ++i) {
+            blocks[i] = Blocks.stone;
+            metadata[i] = (byte) 0;
+        }
 
-		int size = actualSize;
+        int size = actualSize;
 
-		if (chunkX <= size && chunkX >= -size && chunkZ <= size && chunkZ >= -size)
-		{
-			caveGenerator.func_151539_a(this, worldObj, chunkX, chunkZ, blocks);
-		}
+        if (chunkX <= size && chunkX >= -size && chunkZ <= size && chunkZ >= -size) {
+            caveGenerator.func_151539_a(this, worldObj, chunkX, chunkZ, blocks);
+        }
 
-		int i;
+        int i;
 
-		++size;
+        ++size;
 
-		if (chunkX <= size && chunkX >= -size && chunkZ <= size && chunkZ >= -size)
-		{
-			for (int x = 0; x < 16; ++x)
-			{
-				for (int z = 0; z < 16; ++z)
-				{
-					i = (x * 16 + z) * 256;
+        if (chunkX <= size && chunkX >= -size && chunkZ <= size && chunkZ >= -size) {
+            for (int x = 0; x < 16; ++x) {
+                for (int z = 0; z < 16; ++z) {
+                    i = (x * 16 + z) * 256;
 
-					blocks[i] = Blocks.bedrock;
-					blocks[i + 100] = Blocks.bedrock;
-					blocks[i + 99] = Blocks.stone;
+                    blocks[i] = Blocks.bedrock;
+                    blocks[i + 100] = Blocks.bedrock;
+                    blocks[i + 99] = Blocks.stone;
 
-					for (int y = 255; y > 100; --y)
-					{
-						blocks[i + y] = null;
-					}
-				}
-			}
-		}
-		else for (i = 0; i < blocks.length; ++i)
-		{
-			blocks[i] = Blocks.bedrock;
-		}
+                    for (int y = 255; y > 100; --y) {
+                        blocks[i + y] = null;
+                    }
+                }
+            }
+        } else {
+            for (i = 0; i < blocks.length; ++i) {
+                blocks[i] = Blocks.bedrock;
+            }
+        }
 
-		Chunk chunk = new Chunk(worldObj, blocks, metadata, chunkX, chunkZ);
-		Arrays.fill(chunk.getBiomeArray(), (byte)BiomeGenBase.deepOcean.biomeID);
+        Chunk chunk = new Chunk(worldObj, blocks, metadata, chunkX, chunkZ);
 
-		chunk.resetRelightChecks();
+        BiomeGenBase[] biomeArray = new BiomeGenBase[256];
+        Arrays.fill(biomeArray, BiomeGenBase.deepOcean);
+        worldObj.getWorldChunkManager().getBiomeGenAt(biomeArray, chunkX << 4, chunkZ << 4, 16, 16, true);
 
-		return chunk;
-	}
+        chunk.resetRelightChecks();
+
+        return chunk;
+    }
+
 
 	@Override
 	public Chunk loadChunk(int chunkX, int chunkZ)
